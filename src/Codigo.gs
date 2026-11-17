@@ -31,15 +31,6 @@ var FILA_COLUNAS = [
 var CONFIG_BASES_TITULOS = ['Usar?', 'Nome da base', 'Link da planilha', 'Aba',
   'Coluna nome', 'Coluna CPF', 'Coluna matrícula', 'Coluna telefone', 'Coluna órgão'];
 
-/** Títulos tentados quando a coluna não foi configurada na aba Config. */
-var TITULOS_PADRAO = {
-  nome: ['Nome', 'Nome completo', 'Nome do cliente', 'Cliente', 'Servidor', 'Nome do servidor'],
-  cpf: ['CPF', 'CPF do cliente'],
-  matricula: ['Matrícula', 'Matricula', 'Mat'],
-  telefone: ['Telefone', 'Celular', 'Fone', 'WhatsApp', 'Contato', 'Telefone 1'],
-  orgao: ['Órgão', 'Orgao', 'Secretaria', 'Lotação', 'Instituição']
-};
-
 var LOCK_ESPERA_MS = 20000;
 
 function col_(campo) {

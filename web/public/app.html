@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Painel de Atendimento</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><div class="logo" aria-hidden="true">P</div><span>Painel</span></div>
+    <nav id="menu" aria-label="Seções">
+      <a href="#/atendimento" data-rota="atendimento">Atendimento</a>
+      <a href="#/fila" data-rota="fila">Fila</a>
+      <a href="#/importar" data-rota="importar">Importar base</a>
+      <a href="#/coeficientes" data-rota="coeficientes">Coeficientes</a>
+      <a href="#/configuracoes" data-rota="configuracoes" data-admin>Configurações</a>
+      <a href="#/usuarios" data-rota="usuarios" data-admin>Usuários</a>
+    </nav>
+    <div class="usuario-menu">
+      <a href="#/conta" class="nome-usuario" id="nomeUsuario"></a>
+      <button id="sair" class="link">Sair</button>
+    </div>
+  </header>
+  <main class="conteudo" id="conteudo"></main>
+
+  <script src="/js/comum.js"></script>
+  <script src="/js/logica.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -24,6 +24,15 @@ var STATUS_FINAIS = [STATUS.CONSULTADO, STATUS.SEM_MARGEM, STATUS.PULADO];
 /** Campos de cadastro vindos das bases (os únicos que Atualizar fila pode completar). */
 var CAMPOS_CLIENTE = ['nome', 'cpf', 'matricula', 'telefone', 'orgao'];
 
+/** Títulos tentados quando a coluna da base não foi configurada. */
+var TITULOS_PADRAO = {
+  nome: ['Nome', 'Nome completo', 'Nome do cliente', 'Cliente', 'Servidor', 'Nome do servidor'],
+  cpf: ['CPF', 'CPF do cliente'],
+  matricula: ['Matrícula', 'Matricula', 'Mat'],
+  telefone: ['Telefone', 'Celular', 'Fone', 'WhatsApp', 'Contato', 'Telefone 1'],
+  orgao: ['Órgão', 'Orgao', 'Secretaria', 'Lotação', 'Instituição']
+};
+
 /** Minúsculas, sem acentos, espaços repetidos viram um só, sem espaços nas pontas. */
 function normalizar_(texto) {
   return String(texto == null ? '' : texto)
@@ -363,7 +372,7 @@ function codigoLogicaParaPainel_() {
 // Para os testes em Node. No Apps Script, `module` não existe e isto é ignorado.
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
-    STATUS: STATUS, LISTA_STATUS: LISTA_STATUS, STATUS_FINAIS: STATUS_FINAIS, CAMPOS_CLIENTE: CAMPOS_CLIENTE,
+    STATUS: STATUS, LISTA_STATUS: LISTA_STATUS, STATUS_FINAIS: STATUS_FINAIS, CAMPOS_CLIENTE: CAMPOS_CLIENTE, TITULOS_PADRAO: TITULOS_PADRAO,
     normalizar_: normalizar_, chaveTitulo_: chaveTitulo_, soDigitos_: soDigitos_,
     formatarCpf_: formatarCpf_, mostrarCpf_: mostrarCpf_, numero_: numero_,
     arredondar2_: arredondar2_, formatarMoeda_: formatarMoeda_,

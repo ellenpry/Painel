@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Nova senha · Painel de Atendimento</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body data-pagina="redefinir">
+<main class="acesso">
+  <div class="cartao-acesso">
+    <div class="marca"><div class="logo" aria-hidden="true">P</div><span>Painel de Atendimento</span></div>
+    <h1>Criar nova senha</h1>
+    <p class="mudo" id="sub">Conferindo o link…</p>
+    <div id="alerta" hidden></div>
+    <form id="form" novalidate hidden>
+      <input type="email" id="email" autocomplete="username" hidden readonly>
+      <label for="senha">Nova senha</label>
+      <input id="senha" type="password" autocomplete="new-password" minlength="8" required>
+      <label for="confirmacao">Repita a nova senha</label>
+      <input id="confirmacao" type="password" autocomplete="new-password" minlength="8" required>
+      <p class="mudo pequeno">Mínimo de 8 caracteres. Ao salvar, você sai de todos os outros aparelhos.</p>
+      <button type="submit" class="primario">Salvar e entrar</button>
+    </form>
+    <div class="rodape"><a href="/esqueci-senha">Pedir um link novo</a> · <a href="/login">Login</a></div>
+  </div>
+</main>
+<script src="/js/comum.js"></script>
+<script src="/js/acesso.js"></script>
+</body>
+</html>

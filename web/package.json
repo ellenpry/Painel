@@ -1,0 +1,21 @@
+{
+  "name": "painel-atendimento-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plataforma web do Painel de Atendimento (login por convite, PostgreSQL)",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "migrar": "node server/migrar.js",
+    "convite": "node server/cli-convite.js",
+    "test": "node --test --test-concurrency=1 test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "nodemailer": "^10.6.0",
+    "pg": "^8.23.1"
+  }
+}

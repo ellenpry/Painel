@@ -1,0 +1,58 @@
+# Painel de Atendimento — ambiente local.
+#   cp .env.example .env   (e ajuste ADMIN_EMAIL / ADMIN_SENHA)
+#   docker compose up -d --build
+# Plataforma: http://localhost:3000 · E-mails de teste (Mailpit): http://localhost:8025
+name: painel
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: painel
+      POSTGRES_USER: painel
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-painel}
+      TZ: America/Belem
+    volumes:
+      - dados_postgres:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"   # só acessível desta máquina
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U painel -d painel"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # Caixa de e-mail de mentira: captura convites e redefinições de senha. Nada sai para a internet.
+  mailpit:
+    image: axllent/mailpit:v1.21
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8025:8025"   # interface web
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "1"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgres://painel:${POSTGRES_PASSWORD:-painel}@db:5432/painel
+      SMTP_HOST: ${SMTP_HOST:-mailpit}
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      PORT: 3000
+    ports:
+      - "127.0.0.1:3000:3000"
+
+volumes:
+  dados_postgres:
