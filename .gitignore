@@ -1,0 +1,5 @@
+node_modules/
+.clasprc.json
+# .clasp.json tem o scriptId da planilha de quem rodou "clasp create"; cada pessoa gera o seu.
+.clasp.json
+.DS_Store
