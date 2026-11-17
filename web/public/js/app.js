@@ -44,7 +44,8 @@
       lista.forEach((item, i) => {
         const prazo = item.prazo ? (/^\d+$/.test(String(item.prazo)) ? item.prazo + 'x' : item.prazo) : '';
         ol.append(el('li', { class: i === 0 ? 'melhor' : '' },
-          el('span', {}, item.banco, prazo ? el('span', { class: 'prazo' }, prazo) : null),
+          el('span', {}, item.banco, prazo ? el('span', { class: 'prazo' }, prazo) : null,
+            i === 0 ? el('span', { class: 'selo' }, 'Melhor proposta') : null),
           el('span', { class: 'valor' }, formatarMoeda_(item.valor))));
       });
     }
@@ -235,9 +236,9 @@
         contagem.replaceChildren(...STATUS.map(s => el('span', { class: 'etiqueta ' + s.replace(/\s+/g, '-') }, `${s}: ${r.porStatus[s] || 0}`)));
         corpo.replaceChildren(...(r.clientes.length ? r.clientes.map(c => el('tr', { class: 'clicavel', title: 'Ver histórico', onclick: () => verHistorico(c).catch(tratarErro) },
           el('td', {}, c.nome),
-          el('td', { class: 'num' }, c.cpf ? mostrarCpf_(c.cpf) : ''),
-          el('td', {}, c.matricula),
-          el('td', {}, c.telefone),
+          el('td', { class: 'mono' }, c.cpf ? mostrarCpf_(c.cpf) : ''),
+          el('td', { class: 'mono' }, c.matricula),
+          el('td', { class: 'mono' }, c.telefone),
           el('td', {}, [c.orgao, c.origem].filter(Boolean).join(' · ')),
           el('td', {}, etiqueta(c.status), c.atendente ? el('div', { class: 'mudo pequeno' }, c.atendente) : null),
           el('td', { class: 'num' }, moeda(c.margem_emprestimo)),
@@ -497,7 +498,7 @@
           el('td', {}, u.email),
           el('td', {}, u.papel === 'admin' ? 'Administrador(a)' : 'Atendente'),
           el('td', { class: 'mudo' }, formatarData(u.ultimo_login_em) || 'nunca'),
-          el('td', {}, u.ativo ? el('span', { class: 'etiqueta Consultado' }, 'Ativo') : el('span', { class: 'etiqueta Pulado' }, 'Desativado')),
+          el('td', {}, u.ativo ? el('span', { class: 'etiqueta Ativo' }, 'Ativo') : el('span', { class: 'etiqueta Desativado' }, 'Desativado')),
           el('td', {}, souEu ? null : el('div', { class: 'linha-botoes', style: 'margin:0' },
             el('button', { class: 'link', onclick: mudar({ papel: u.papel === 'admin' ? 'atendente' : 'admin' }, 'Acesso alterado.') },
               u.papel === 'admin' ? 'Tornar atendente' : 'Tornar admin'),
@@ -523,7 +524,19 @@
       atual.value = nova.value = conf.value = '';
       mostrarAlerta(alerta, 'Senha alterada. Você continua conectado(a) aqui e saiu dos outros aparelhos.', 'ok');
     }).catch(e => mostrarAlerta(alerta, e.message)));
+    let temaAtual = 'auto';
+    try { temaAtual = localStorage.getItem('libera-tema') || 'auto'; } catch (e) { /* sem armazenamento */ }
+    const opcoesTema = [['auto', 'Igual ao sistema'], ['claro', 'Claro'], ['escuro', 'Escuro']].map(([valor, texto]) =>
+      el('button', { 'aria-pressed': String(valor === temaAtual), onclick: () => {
+        try { if (valor === 'auto') localStorage.removeItem('libera-tema'); else localStorage.setItem('libera-tema', valor); } catch (e) { /* só nesta visita */ }
+        if (valor === 'auto') document.documentElement.removeAttribute('data-tema');
+        else document.documentElement.setAttribute('data-tema', valor);
+        opcoesTema.forEach(b => b.setAttribute('aria-pressed', String(b === opcoesTema[['auto', 'claro', 'escuro'].indexOf(valor)])));
+      } }, texto));
     conteudo.replaceChildren(cabecalho('Minha conta'), el('div', { class: 'painel' },
+      el('h2', {}, 'Aparência'),
+      el('p', { class: 'mudo' }, 'Vale para este navegador.'),
+      el('div', { class: 'escolha-tema' }, opcoesTema)), el('div', { class: 'painel' },
       el('p', {}, el('b', {}, eu.nome), el('br'), el('span', { class: 'mudo' }, eu.email + ' · ' + (eu.papel === 'admin' ? 'Administrador(a)' : 'Atendente'))),
       el('h2', { style: 'margin-top:20px' }, 'Trocar senha'),
       alerta,
@@ -547,7 +560,7 @@
     if (!ROTAS[rota] || (SO_ADMIN.includes(rota) && !ehAdmin())) rota = 'atendimento';
     if (limpezaDaTela) { limpezaDaTela(); limpezaDaTela = null; }
     document.querySelectorAll('#menu a').forEach(a => a.classList.toggle('ativo', a.dataset.rota === rota));
-    document.title = (document.querySelector(`#menu a[data-rota="${rota}"]`) || { textContent: 'Minha conta' }).textContent + ' · Painel de Atendimento';
+    document.title = (document.querySelector(`#menu a[data-rota="${rota}"]`) || { textContent: 'Minha conta' }).textContent + ' · Libera';
     try { await ROTAS[rota](); } catch (e) { tratarErro(e); }
   }
 

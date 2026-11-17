@@ -1,4 +1,6 @@
-# Painel de Atendimento
+# Libera · Painel de Atendimento
+
+**Libera** é a marca do projeto (identidade 2b, Azul aço). O kit original fica em [`identidade/`](identidade/LEIA-ME.md): logos, tokens de cor e tipografia.
 
 O projeto tem duas formas de uso, que compartilham a mesma lógica de cálculo (`src/Logica.gs`):
 
@@ -75,6 +77,18 @@ cd web && npm install && TEST_DATABASE_URL=postgres://postgres:teste@localhost:5
 - Em produção: HTTPS na frente, `COOKIE_SECURE=true`, `APP_URL` com o endereço público, SMTP real no lugar do Mailpit, senha forte em `POSTGRES_PASSWORD` e backup do volume do banco.
 - Os coeficientes iniciais são **fictícios**.
 
+### Identidade visual (Libera)
+
+Use a identidade em qualquer tela nova, seguindo estas regras do kit:
+
+- **Cores:** sempre pelas variáveis `--libera-*` de `web/public/css/estilo.css`, nunca com o valor da cor escrito direto. O arquivo tem os valores dos modos claro e escuro.
+- **Verde** só para "Melhor proposta" e "Consultado". **Azul** só para o que se clica.
+- **Fontes:** IBM Plex Sans para texto; IBM Plex Mono para valores em reais, CPF, matrícula, telefone e rótulos (12 px, caixa-alta). Os arquivos `.woff2` (licença OFL) ficam em `web/public/fonts/` e são servidos pelo próprio servidor.
+- **Logos e favicon** para a web estão em `web/public/img/` e `web/public/favicon.svg`. São cópias do kit sem os metadados embutidos.
+- **Tema:** segue o sistema. Cada pessoa pode fixar claro ou escuro em **Minha conta**.
+- **E-mails:** usam as mesmas cores, escritas direto no HTML (`web/server/email.js`).
+- **Barra lateral do Sheets:** carrega o IBM Plex pelo Google Fonts, porque o Apps Script não hospeda arquivos de fonte.
+
 ---
 
 ## Planilha Google (Apps Script)
@@ -91,6 +105,7 @@ Planilha Google com Apps Script que mostra **um cliente por vez** e **simula os 
 | `src/appsscript.json` | Manifesto: runtime V8, fuso `America/Belem` (Amapá). |
 | `test/` | `logica.test.js` (lógica pura) e `planilha.test.js` (fluxo completo do `Codigo.gs` numa planilha simulada em memória). |
 | `web/` | Plataforma web (servidor Express, páginas, migrações do banco, testes). |
+| `identidade/` | Kit da identidade visual Libera (original). |
 | `NOTAS_V1.md` | Revisão contra a especificação, decisões de implementação e o que ainda falta testar. |
 
 ## Testes

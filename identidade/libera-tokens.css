@@ -1,0 +1,25 @@
+/* Libera — tokens da identidade 2b (Azul aço) */
+:root{
+  --libera-primaria:#1d5e94; --libera-primaria-suave:#e3eef7;
+  --libera-fundo:#f4f5f6; --libera-superficie:#ffffff; --libera-pagina:#fafbfc;
+  --libera-texto:#15181c; --libera-texto-2:#4d535b; --libera-texto-3:#6b7179;
+  --libera-borda:#dfe2e6; --libera-borda-forte:#c8cdd3; --libera-divisor:#eceef1;
+  --libera-sucesso:#1f7a4a; --libera-sucesso-texto:#1a6b40; --libera-sucesso-suave:#e3f2e8;
+  --libera-alerta:#b07a12;  --libera-alerta-texto:#7d5100;  --libera-alerta-suave:#fbf0d9;
+  --libera-erro:#b03a2e;    --libera-erro-texto:#a3352a;    --libera-erro-suave:#f9e6e3;
+  --libera-raio:4px; --libera-raio-card:6px;
+  --libera-fonte:'IBM Plex Sans',system-ui,sans-serif;
+  --libera-fonte-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+[data-tema="escuro"]{
+  --libera-primaria:#8cc0ea; --libera-primaria-suave:#14283a;
+  --libera-fundo:#111317; --libera-superficie:#1a1d22; --libera-pagina:#111317;
+  --libera-texto:#eceef1; --libera-texto-2:#aeb4bc; --libera-texto-3:#858b93;
+  --libera-borda:#32373e; --libera-borda-forte:#454b53; --libera-divisor:#32373e;
+  --libera-sucesso:#5fcf8f; --libera-sucesso-texto:#7fdca5; --libera-sucesso-suave:#183324;
+  --libera-alerta:#e8b55a;  --libera-alerta-texto:#e8b55a;  --libera-alerta-suave:#3a2d14;
+  --libera-erro:#f08a7d;    --libera-erro-texto:#f08a7d;    --libera-erro-suave:#3d1f1b;
+}
+/* Tipografia
+   Título 28/600 -0.015em · Texto 15/400 · Rótulo 12/500 mono, caixa-alta, +0.1em
+   Valor 24/600 mono -0.02em · Valores e CPF sempre em mono */

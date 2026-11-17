@@ -3,60 +3,82 @@
 <head>
   <base target="_top">
   <meta charset="utf-8">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Identidade Libera (kit em /identidade). O Apps Script não hospeda arquivos de fonte, então aqui o IBM Plex vem do Google Fonts. -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primaria: #1d5e94; --primaria-suave: #e3eef7; --primaria-hover: #174d7a;
+      --fundo: #f4f5f6; --superficie: #ffffff; --pagina: #fafbfc;
+      --texto: #15181c; --texto-2: #4d535b; --texto-3: #6b7179;
+      --borda: #dfe2e6; --borda-forte: #c8cdd3; --divisor: #eceef1;
+      --sucesso: #1f7a4a; --sucesso-texto: #1a6b40; --sucesso-suave: #e3f2e8;
+      --alerta-texto: #7d5100; --alerta-suave: #fbf0d9;
+      --erro: #b03a2e; --erro-texto: #a3352a; --erro-suave: #f9e6e3;
+      --raio: 4px; --raio-card: 6px;
+      --fonte: 'IBM Plex Sans', system-ui, sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    }
     * { box-sizing: border-box; }
-    body { font-family: Roboto, Arial, sans-serif; font-size: 13px; color: #202124; margin: 0; padding: 12px; }
-    button { font-family: inherit; font-size: 13px; cursor: pointer; }
+    body { font-family: var(--fonte); font-size: 13px; color: var(--texto); margin: 0; padding: 12px; background: var(--superficie); }
+    button { font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
     button:disabled { opacity: .5; cursor: default; }
-    input, textarea { font-family: inherit; font-size: 13px; width: 100%; padding: 6px 8px;
-      border: 1px solid #dadce0; border-radius: 4px; }
-    input:focus, textarea:focus { outline: 2px solid #1a73e8; outline-offset: -1px; border-color: #1a73e8; }
-    label { display: block; color: #5f6368; font-size: 12px; margin: 10px 0 3px; }
-    h3 { font-size: 12px; font-weight: 500; color: #5f6368; text-transform: uppercase; letter-spacing: .4px; margin: 14px 0 4px; }
+    input, textarea { font-family: inherit; font-size: 13px; width: 100%; padding: 6px 8px; color: var(--texto);
+      border: 1px solid var(--borda-forte); border-radius: var(--raio); }
+    input:focus, textarea:focus { outline: 2px solid var(--primaria); outline-offset: -1px; border-color: var(--primaria); }
+    label, h3, .dado span.rot { font-family: var(--mono); font-size: 11px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--texto-2); }
+    label { display: block; margin: 12px 0 4px; }
+    h3 { margin: 16px 0 4px; }
 
-    #topo { display: flex; align-items: center; justify-content: space-between; color: #5f6368;
-      border-bottom: 1px solid #e8eaed; padding-bottom: 8px; margin-bottom: 10px; }
-    #topo b { color: #202124; font-weight: 500; }
-    #recarregar { border: none; background: none; font-size: 16px; color: #5f6368; padding: 0 4px; }
+    .marca { display: flex; align-items: center; gap: 6px; font-weight: 600; letter-spacing: -0.02em; }
+    .marca svg { width: 18px; height: 18px; display: block; }
+    #topo { display: flex; align-items: center; justify-content: space-between; color: var(--texto-2);
+      border-bottom: 1px solid var(--borda); padding-bottom: 8px; margin-bottom: 10px; }
+    #topo .contagem { font-size: 12px; }
+    #topo b { color: var(--texto); font-weight: 600; font-family: var(--mono); }
+    #recarregar { border: none; background: none; font-size: 16px; color: var(--primaria); padding: 0 4px; }
 
-    #msg { display: none; padding: 8px; border-radius: 4px; margin-bottom: 8px; }
-    #msg.erro { display: block; background: #fce8e6; color: #c5221f; }
-    #msg.info { display: block; background: #e6f4ea; color: #137333; }
+    #msg { display: none; padding: 8px; border-radius: var(--raio); margin-bottom: 8px; border-left: 3px solid; }
+    #msg.erro { display: block; background: var(--erro-suave); color: var(--erro-texto); border-color: var(--erro); }
+    #msg.info { display: block; background: var(--sucesso-suave); color: var(--sucesso-texto); border-color: var(--sucesso); }
 
-    .nome { font-size: 16px; font-weight: 500; line-height: 1.3; }
-    .sub { color: #5f6368; margin-top: 2px; }
+    .nome { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25; }
+    .sub { color: var(--texto-2); margin-top: 2px; }
     .dado { display: flex; align-items: center; justify-content: space-between; margin-top: 6px;
-      background: #f8f9fa; border-radius: 4px; padding: 4px 4px 4px 8px; }
-    .dado span.rot { color: #5f6368; width: 70px; flex: none; }
-    .dado span.val { flex: 1; font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; }
-    .copiar { border: 1px solid #dadce0; background: #fff; border-radius: 4px; padding: 2px 8px; color: #1a73e8; }
+      background: var(--pagina); border: 1px solid var(--divisor); border-radius: var(--raio); padding: 4px 4px 4px 8px; }
+    .dado span.rot { width: 74px; flex: none; font-size: 10px; }
+    .dado span.val { flex: 1; font-family: var(--mono); font-weight: 500; overflow: hidden; text-overflow: ellipsis; }
+    .copiar { border: 1px solid var(--borda-forte); background: var(--superficie); border-radius: var(--raio); padding: 2px 8px; color: var(--primaria); }
 
     .atalhos { display: flex; gap: 6px; margin-top: 10px; }
-    .atalhos a { flex: 1; text-align: center; padding: 6px; border: 1px solid #dadce0; border-radius: 4px;
-      color: #1a73e8; text-decoration: none; }
-    .atalhos a.off { color: #9aa0a6; pointer-events: none; }
+    .atalhos a { flex: 1; text-align: center; padding: 6px; border: 1px solid var(--borda-forte); border-radius: var(--raio);
+      color: var(--primaria); text-decoration: none; font-weight: 500; }
+    .atalhos a.off { color: var(--texto-3); border-style: dashed; pointer-events: none; }
+    #margemEmp, #margemCartao { font-family: var(--mono); font-size: 15px; font-weight: 500; }
 
     ol.rank { list-style: none; margin: 0; padding: 0; }
-    ol.rank li { display: flex; justify-content: space-between; padding: 5px 8px; border-radius: 4px; }
-    ol.rank li + li { border-top: 1px solid #f1f3f4; }
-    ol.rank li.melhor { background: #e6f4ea; font-weight: 500; }
-    ol.rank li.vazio { color: #9aa0a6; }
-    ol.rank .prazo { color: #5f6368; font-weight: 400; font-size: 12px; margin-left: 4px; }
-    .valor { font-variant-numeric: tabular-nums; }
-    .invalido { color: #c5221f; font-size: 12px; margin-top: 2px; }
+    ol.rank li { display: flex; justify-content: space-between; padding: 5px 8px; border-radius: var(--raio); }
+    ol.rank li + li { border-top: 1px solid var(--divisor); }
+    ol.rank li.melhor { background: var(--sucesso-suave); color: var(--sucesso-texto); font-weight: 600; }
+    ol.rank li.vazio { color: var(--texto-3); }
+    ol.rank .prazo { font-family: var(--mono); color: var(--texto-2); font-weight: 400; font-size: 11px; margin-left: 4px; }
+    ol.rank li.melhor .prazo { color: inherit; }
+    .valor { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+    .invalido { color: var(--erro-texto); font-size: 12px; margin-top: 2px; }
 
     .botoes { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 14px; }
-    .botoes button { padding: 8px; border-radius: 4px; border: 1px solid #dadce0; background: #fff; }
-    .botoes .primario { grid-column: 1 / 3; background: #1a73e8; border-color: #1a73e8; color: #fff; font-weight: 500; }
-    .dica { color: #9aa0a6; font-size: 11px; text-align: center; margin-top: 6px; }
-    #vazio { color: #5f6368; text-align: center; padding: 24px 8px; line-height: 1.5; }
+    .botoes button { padding: 8px; border-radius: var(--raio); border: 1px solid var(--borda-forte); background: var(--superficie); color: var(--primaria); }
+    .botoes .primario { grid-column: 1 / 3; background: var(--primaria); border-color: var(--primaria); color: #fff; }
+    .botoes .primario:hover { background: var(--primaria-hover); }
+    .dica { color: var(--texto-3); font-size: 11px; text-align: center; margin-top: 6px; font-family: var(--mono); }
+    #vazio { color: var(--texto-2); text-align: center; padding: 24px 8px; line-height: 1.5; }
     [hidden] { display: none !important; }
   </style>
 </head>
 <body>
   <div id="topo">
-    <span><b id="naFila">–</b> na fila · <b id="feitosHoje">–</b> feitos hoje</span>
+    <span class="marca"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#1d5e94"/><rect x="8.5" y="7.5" width="4.5" height="17" rx="2.25" fill="#fff"/><rect x="8.5" y="20" width="12" height="4.5" rx="2.25" fill="#fff"/><circle cx="24.5" cy="22.25" r="2.25" fill="#fff"/></svg>Libera</span>
+    <span class="contagem"><b id="naFila">–</b> na fila · <b id="feitosHoje">–</b> hoje</span>
     <button id="recarregar" title="Recarregar">↻</button>
   </div>
   <div id="msg"></div>
@@ -64,7 +86,7 @@
   <div id="carregando">Carregando…</div>
 
   <div id="vazio" hidden>
-    Nenhum cliente pendente. 🎉<br>
+    Nenhum cliente pendente.<br>
     Use <b>Atendimento › Atualizar fila</b> para trazer novos clientes ou
     <b>Devolver clientes pulados</b> para rever os que você pulou.
   </div>

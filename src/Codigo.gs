@@ -54,7 +54,7 @@ function onOpen() {
 
 function abrirPainel() {
   var html = HtmlService.createTemplateFromFile('Painel').evaluate()
-    .setTitle('Atendimento')
+    .setTitle('Libera · Atendimento')
     .setWidth(300);
   SpreadsheetApp.getUi().showSidebar(html);
 }
@@ -79,7 +79,7 @@ function garantirAbas_(ss) {
 
 function criarAbaConfig_(ss) {
   var aba = ss.insertSheet(ABA_CONFIG);
-  aba.getRange('A1').setValue('Painel de Atendimento — Configuração').setFontWeight('bold').setFontSize(12);
+  aba.getRange('A1').setValue('Libera · Painel de Atendimento — Configuração').setFontWeight('bold').setFontSize(12);
   aba.getRange('A2:C3').setValues([
     ['Site de margem', '', '← cole aqui o link do site de consulta de margem'],
     ['Lemitti', 'https://lemitti.com', '']
@@ -90,7 +90,7 @@ function criarAbaConfig_(ss) {
   aba.getRange('A5').setValue('Bases de clientes — são só lidas, nunca alteradas. Link vazio = aba desta mesma planilha. Título de coluna vazio = tenta os nomes mais comuns.')
     .setFontColor('#5f6368');
   aba.getRange(6, 1, 1, CONFIG_BASES_TITULOS.length).setValues([CONFIG_BASES_TITULOS])
-    .setFontWeight('bold').setBackground('#e8f0fe');
+    .setFontWeight('bold').setBackground('#e3eef7');
   aba.getRange(7, 1, 3, CONFIG_BASES_TITULOS.length).setValues([
     ['NÃO', 'Base 1', '', '', 'Nome', 'CPF', 'Matrícula', 'Telefone', 'Órgão'],
     ['NÃO', 'Base 2', '', '', 'Nome', 'CPF', 'Matrícula', 'Telefone', 'Órgão'],
@@ -123,11 +123,11 @@ function criarAbaCoeficientes_(ss) {
     linhas.push([b[0], 'Empréstimo', 96, 'Coeficiente', b[2], 'SIM']);
     linhas.push([b[0], 'Cartão', '', 'Multiplicador', b[3], 'SIM']);
   });
-  aba.getRange(1, 1, 1, titulos.length).setValues([titulos]).setFontWeight('bold').setBackground('#e8f0fe');
+  aba.getRange(1, 1, 1, titulos.length).setValues([titulos]).setFontWeight('bold').setBackground('#e3eef7');
   aba.getRange(2, 1, linhas.length, titulos.length).setValues(linhas);
   aba.getRange(2, 5, linhas.length, 1).setNumberFormat('0.0000');
   aba.getRange('H1').setValue('⚠ VALORES FICTÍCIOS — substitua pelos coeficientes reais de cada banco.')
-    .setFontWeight('bold').setFontColor('#c5221f');
+    .setFontWeight('bold').setFontColor('#a3352a');
   aba.getRange('H2').setValue('Coeficiente: liberado = margem ÷ fator. Multiplicador: liberado = margem × fator.')
     .setFontColor('#5f6368');
   aba.getRange('B2:B200').setDataValidation(
@@ -144,7 +144,7 @@ function criarAbaCoeficientes_(ss) {
 function criarAbaFila_(ss) {
   var aba = ss.insertSheet(ABA_FILA);
   var titulos = FILA_COLUNAS.map(function (c) { return c[1]; });
-  aba.getRange(1, 1, 1, titulos.length).setValues([titulos]).setFontWeight('bold').setBackground('#e8f0fe');
+  aba.getRange(1, 1, 1, titulos.length).setValues([titulos]).setFontWeight('bold').setBackground('#e3eef7');
   aba.setFrozenRows(1);
   formatarColunasFila_(aba, 2, Math.max(aba.getMaxRows() - 1, 1));
   aba.hideColumns(col_('chave'));
@@ -489,7 +489,7 @@ function criarBasesDeExemplo() {
   bases.forEach(function (b) {
     var aba = ss.getSheetByName(b.aba) || ss.insertSheet(b.aba);
     aba.clear();
-    aba.getRange('A1').setValue('DADOS FICTÍCIOS PARA TESTE').setFontWeight('bold').setFontColor('#c5221f');
+    aba.getRange('A1').setValue('DADOS FICTÍCIOS PARA TESTE').setFontWeight('bold').setFontColor('#a3352a');
     aba.getRange(3, 1, 1, b.colunas.length).setValues([b.colunas]).setFontWeight('bold');
     aba.getRange(4, 1, b.linhas.length, b.colunas.length).setValues(b.linhas);
   });
